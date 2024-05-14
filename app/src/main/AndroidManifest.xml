@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,22 +16,17 @@
         android:theme="@style/Theme.MyApplicationDEMO"
         tools:targetApi="31">
         <activity
-            android:name=".OfferDetails_Seller"
-            android:exported="false" />
+            android:name=".Add_Activity"
+            android:exported="false"
+            android:parentActivityName=".Home_Menu"
+            android:label="Add new activity"/>
         <activity
-            android:name=".OfferDetails_Client"
-            android:exported="false" />
+            android:name=".Home_Menu"
+            android:exported="false"
+            android:parentActivityName=".Login"
+            android:label="Home menu"/>
         <activity
-            android:name=".ListOffers_Seller"
-            android:exported="false" />
-        <activity
-            android:name=".ListOffers_Client"
-            android:exported="false" />
-        <activity
-            android:name=".PublishForm"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

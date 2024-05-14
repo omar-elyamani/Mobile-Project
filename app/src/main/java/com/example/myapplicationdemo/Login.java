@@ -1,25 +1,15 @@
 package com.example.myapplicationdemo;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.Objects;
-
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     EditText username;
     EditText password;
@@ -27,21 +17,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (username.getText().toString().equals("user") && password.getText().toString().equals("1234")) {
-                    Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                String user = username.getText().toString();
+                String pass = password.getText().toString();
+                    String role = null;
+
+                if (user.equals("client") && pass.equals("1234") /*&& role.equals("client")*/) {
+                    Toast.makeText(Login.this, "Login Successful as Client!", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(Login.this, Home_Menu.class));
+                    finish();
+                } else if (user.equals("seller") && pass.equals("1234") /*&& role.equals("seller")*/) {
+                    Toast.makeText(Login.this, "Login Successful as Seller!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Login.this, Home_Menu.class));
+                    finish();
                 } else {
-                    Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Login Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+}
 
 /*
     @SuppressLint("NewApi")
@@ -58,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Error", Objects.requireNonNull(exception.getMessage()));
         }
         return con;
-    }*/
-}
+    }
+*/
+
