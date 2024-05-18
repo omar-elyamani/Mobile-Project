@@ -3,4 +3,8 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="not">Not yet registered? SignUp Now</string>
+    <string name="_1">1</string>
+    <string name="title_1">Title 1</string>
+    <string name="disponibilité">Encore disponible</string>
+    <string name="description">Description</string>
 </resources>
