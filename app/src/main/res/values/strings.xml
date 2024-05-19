@@ -7,4 +7,5 @@
     <string name="title_1">Title 1</string>
     <string name="disponibilité">Encore disponible</string>
     <string name="description">Description</string>
+    <string name="delete">Delete</string>
 </resources>

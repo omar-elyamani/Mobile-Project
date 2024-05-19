@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Home_Menu extends AppCompatActivity {
     FloatingActionButton add_button;
     DB_Helper db;
     ArrayList<String> offer_id, offer_title, offer_description;
+    Custom_Adapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,14 @@ public class Home_Menu extends AppCompatActivity {
         offer_description = new ArrayList<>();
 
         storeData();
+
+        customAdapter = new Custom_Adapter(Home_Menu.this, offer_id, offer_title, offer_description);
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu.this));
     }
 
     public void storeData( ) {
-        Cursor cursor = db.listOffer();
+        Cursor cursor = db.listOffers();
         if(cursor.getCount() == 0){
             showToast("No offers are added yet!");
         }else{

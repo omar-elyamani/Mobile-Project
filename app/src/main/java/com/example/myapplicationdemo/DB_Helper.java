@@ -52,15 +52,42 @@ public class DB_Helper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor listOffer() {
-        String query = "SELECT * FROM "+TABLE_NAME;
+    public Cursor listOffers() {
+        String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(query, null);
+    }
 
-        Cursor cursor = null;
-        if (db != null) {
-            cursor = db.rawQuery(query, null);
+    public void updateOffer(String row_id, String title, String description) {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_TITLE, title);
+            cv.put(COLUMN_DESCRIPTION, description);
+
+            long result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{row_id});
+            if (result == -1) {
+                showToast("Failed to update!");
+            } else {
+                showToast("Successfully updated!");
+            }
         }
-        return cursor;
+    }
+
+    public void deleteOffer(String row_id) {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            long result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{row_id});
+            if (result == -1) {
+                showToast("Failed to delete.");
+            } else {
+                showToast("Successfully deleted.");
+            }
+        }
+    }
+
+    public void deleteAllOffers() {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            db.execSQL("DELETE FROM " + TABLE_NAME);
+        }
     }
 
     private void showToast(String message) {
