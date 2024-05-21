@@ -5,13 +5,15 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
-public class Home_Menu extends AppCompatActivity {
+public class Home_Menu_Seller extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton add_button;
@@ -29,21 +31,29 @@ public class Home_Menu extends AppCompatActivity {
         add_button.setOnClickListener(new View.OnClickListener() {
                 @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home_Menu.this, Add_Activity.class);
+                Intent intent = new Intent(Home_Menu_Seller.this, Add_Activity.class);
                 startActivity(intent);
             }
         });
 
-        db = new DB_Helper(Home_Menu.this);
+        db = new DB_Helper(Home_Menu_Seller.this);
         offer_id = new ArrayList<>();
         offer_title = new ArrayList<>();
         offer_description = new ArrayList<>();
 
         storeData();
 
-        customAdapter = new Custom_Adapter(Home_Menu.this, offer_id, offer_title, offer_description);
+        customAdapter = new Custom_Adapter(Home_Menu_Seller.this, Home_Menu_Seller.this, offer_id, offer_title, offer_description);
         recyclerView.setAdapter(customAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu_Seller.this));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+          recreate();
+        }
     }
 
     public void storeData( ) {
@@ -57,10 +67,9 @@ public class Home_Menu extends AppCompatActivity {
                 offer_description.add(cursor.getString(2));
             }
         }
-
     }
 
     private void showToast(String message) {
-        Toast.makeText(Home_Menu.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Home_Menu_Seller.this, message, Toast.LENGTH_SHORT).show();
     }
 }

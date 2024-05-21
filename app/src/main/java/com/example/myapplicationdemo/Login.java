@@ -32,33 +32,16 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Login Successful as Client!", Toast.LENGTH_SHORT).show();
                     //startActivity(new Intent(Login.this, Home_Menu.class));
                     finish();
-                } else if (user.equals("seller") && pass.equals("1234") /*&& role.equals("seller")*/) {
+                } else if (user.equals("0") && pass.equals("0") /*&& role.equals("seller")*/) {
                     Toast.makeText(Login.this, "Login Successful as Seller!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login.this, Home_Menu.class));
+                    startActivity(new Intent(Login.this, Home_Menu_Seller.class));
                     finish();
                 } else {
                     Toast.makeText(Login.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    username.setText("");
+                    password.setText("");
                 }
             }
         });
     }
 }
-
-/*
-    @SuppressLint("NewApi")
-    public Connection connectionClass() {
-        Connection con = null;
-        String ip = "172.1.0.1", port = "1433", username = "OMAR", password = "", databaseName = "Annonces_DB";
-        StrictMode.ThreadPolicy tp = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(tp);
-        try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String connectionUrl = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";databaseName=" + databaseName + ";User=" + username + ";password=" + password + ";";
-            con = DriverManager.getConnection(connectionUrl);
-        } catch (Exception exception) {
-            Log.e("Error", Objects.requireNonNull(exception.getMessage()));
-        }
-        return con;
-    }
-*/
-

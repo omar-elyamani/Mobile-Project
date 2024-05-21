@@ -1,9 +1,7 @@
 package com.example.myapplicationdemo;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,6 @@ public class Update_Activity extends AppCompatActivity {
 
     EditText title_input, description_input;
     Button update_button, delete_button;
-
     String id, title, description;
 
     @Override
@@ -31,12 +28,6 @@ public class Update_Activity extends AppCompatActivity {
 
         // First we call this
         getAndSetIntentData();
-
-        // Set actionbar title after getAndSetIntentData method
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setTitle(title);
-        }
 
         update_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +50,7 @@ public class Update_Activity extends AppCompatActivity {
     }
 
     void getAndSetIntentData(){
-        if(getIntent().hasExtra("id") && getIntent().hasExtra("title") && getIntent().hasExtra("description")){
+        if (getIntent().hasExtra("id") && getIntent().hasExtra("title") && getIntent().hasExtra("description")) {
             // Getting Data from Intent
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
@@ -68,7 +59,7 @@ public class Update_Activity extends AppCompatActivity {
             // Setting Intent Data
             title_input.setText(title);
             description_input.setText(description);
-            Log.d("Update_Activity", title + " " + description);
+            Log.d("Update_Activity", "Received data: ID = " + id + ", Title = " + title + ", Description = " + description);
         } else {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }

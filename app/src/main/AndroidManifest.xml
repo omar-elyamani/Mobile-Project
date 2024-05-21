@@ -22,9 +22,9 @@
             android:name=".Add_Activity"
             android:exported="false"
             android:label="Add new activity"
-            android:parentActivityName=".Home_Menu" />
+            android:parentActivityName=".Home_Menu_Seller" />
         <activity
-            android:name=".Home_Menu"
+            android:name=".Home_Menu_Seller"
             android:exported="false"
             android:label="Home menu"
             android:parentActivityName=".Login" />

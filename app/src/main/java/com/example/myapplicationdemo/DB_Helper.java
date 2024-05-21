@@ -2,9 +2,11 @@ package com.example.myapplicationdemo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 public class DB_Helper extends SQLiteOpenHelper {
@@ -59,17 +61,17 @@ public class DB_Helper extends SQLiteOpenHelper {
     }
 
     public void updateOffer(String row_id, String title, String description) {
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_TITLE, title);
-            cv.put(COLUMN_DESCRIPTION, description);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE, title);
+        cv.put(COLUMN_DESCRIPTION, description);
 
-            long result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{row_id});
-            if (result == -1) {
-                showToast("Failed to update!");
-            } else {
-                showToast("Successfully updated!");
-            }
+        long result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{row_id});
+
+        if(result == -1){
+            showToast("The update operation has failed!");
+        } else {
+            showToast("Your offer was updated successfully!");
         }
     }
 
