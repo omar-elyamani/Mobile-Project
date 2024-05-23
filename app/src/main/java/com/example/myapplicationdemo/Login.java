@@ -21,6 +21,7 @@ public class Login extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,9 +31,9 @@ public class Login extends AppCompatActivity {
 
                 if (user.equals("client") && pass.equals("1234") /*&& role.equals("client")*/) {
                     Toast.makeText(Login.this, "Login Successful as Client!", Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(Login.this, Home_Menu.class));
+                    startActivity(new Intent(Login.this, Home_Menu_Client.class));
                     finish();
-                } else if (user.equals("0") && pass.equals("0") /*&& role.equals("seller")*/) {
+                } else if (user.equals("seller") && pass.equals("1234") /*&& role.equals("seller")*/) {
                     Toast.makeText(Login.this, "Login Successful as Seller!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Login.this, Home_Menu_Seller.class));
                     finish();

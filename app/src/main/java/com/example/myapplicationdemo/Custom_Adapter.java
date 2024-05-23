@@ -41,8 +41,17 @@ public class Custom_Adapter extends RecyclerView.Adapter<Custom_Adapter.MyViewHo
         holder.offer_id_text.setText(offer_id.get(position));
         holder.offer_title_text.setText(offer_title.get(position));
         holder.offer_description_text.setText(offer_description.get(position));
+
         holder.mainLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, Update_Activity.class);
+            Intent intent;
+            if (context instanceof Home_Menu_Seller) {
+                intent = new Intent(context, Update_Activity.class);
+            } else if (context instanceof Home_Menu_Client) {
+                intent = new Intent(context, Consult_Activity.class);
+            } else {
+                intent = new Intent(context, Login.class);
+            }
+
             intent.putExtra("id", offer_id.get(position));
             intent.putExtra("title", offer_title.get(position));
             intent.putExtra("description", offer_description.get(position));

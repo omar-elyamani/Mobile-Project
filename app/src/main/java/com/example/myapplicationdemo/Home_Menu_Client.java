@@ -6,17 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
-public class Home_Menu_Seller extends AppCompatActivity {
+public class Home_Menu_Client extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    FloatingActionButton add_button;
     DB_Helper db;
     ArrayList<String> offer_id, offer_title, offer_description;
     Custom_Adapter customAdapter;
@@ -24,35 +29,27 @@ public class Home_Menu_Seller extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_menu_seller);
+        setContentView(R.layout.activity_home_menu_client);
 
-        recyclerView = findViewById(R.id.recyclerview);
-        add_button = findViewById(R.id.add_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home_Menu_Seller.this, Add_Activity.class);
-                startActivity(intent);
-            }
-        });
+        recyclerView = findViewById(R.id.recyclerview_client);
 
-        db = new DB_Helper(Home_Menu_Seller.this);
+        db = new DB_Helper(Home_Menu_Client.this);
         offer_id = new ArrayList<>();
         offer_title = new ArrayList<>();
         offer_description = new ArrayList<>();
 
         storeData();
 
-        customAdapter = new Custom_Adapter(Home_Menu_Seller.this, Home_Menu_Seller.this, offer_id, offer_title, offer_description);
+        customAdapter = new Custom_Adapter(Home_Menu_Client.this, Home_Menu_Client.this, offer_id, offer_title, offer_description);
         recyclerView.setAdapter(customAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu_Seller.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu_Client.this));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
-          recreate();
+            recreate();
         }
     }
 
@@ -70,6 +67,6 @@ public class Home_Menu_Seller extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast.makeText(Home_Menu_Seller.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Home_Menu_Client.this, message, Toast.LENGTH_SHORT).show();
     }
 }
