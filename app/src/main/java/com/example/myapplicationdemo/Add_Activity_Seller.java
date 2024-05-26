@@ -1,5 +1,6 @@
 package com.example.myapplicationdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,10 +47,12 @@ public class Add_Activity extends AppCompatActivity {
         String title = titleEditText.getText().toString().trim();
         String description = descriptionEditText.getText().toString().trim();
         if (!title.isEmpty() && !description.isEmpty()) {
-            DB_Helper db = new DB_Helper(this);
+            DB_Helper_Offers db = new DB_Helper_Offers(this);
             db.addOffer(title, description);
+            startActivity(new Intent(Add_Activity.this, Home_Menu_Seller.class));
+            finish();
         } else {
-            showToast("Please fill in both fields");
+            showToast("Please fill in all the fields");
         }
     }
 
