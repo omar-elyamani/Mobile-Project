@@ -2,28 +2,23 @@ package com.example.myapplicationdemo;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class Home_Menu_Client extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    DB_Helper db;
-    ArrayList<String> offer_id, offer_title, offer_description;
+    DB_Helper dbHelper;
+    DB_Helper_Offers offersDAO;
+    ArrayList<String> offer_id, offer_title, offer_number, offer_description;
     Custom_Adapter customAdapter;
 
     @Override
@@ -33,16 +28,22 @@ public class Home_Menu_Client extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerview_client);
 
-        db = new DB_Helper(Home_Menu_Client.this);
+        dbHelper = new DB_Helper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        offersDAO = new DB_Helper_Offers(db, this);
+
         offer_id = new ArrayList<>();
         offer_title = new ArrayList<>();
+        offer_number = new ArrayList<>();
         offer_description = new ArrayList<>();
 
         storeData();
 
-        customAdapter = new Custom_Adapter(Home_Menu_Client.this, Home_Menu_Client.this, offer_id, offer_title, offer_description);
+        customAdapter = new Custom_Adapter(Home_Menu_Client.this, Home_Menu_Client.this, offer_id, offer_title, offer_number, offer_description);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(Home_Menu_Client.this));
+
+        db.close(); // Close the database when done
     }
 
     @Override
@@ -53,17 +54,19 @@ public class Home_Menu_Client extends AppCompatActivity {
         }
     }
 
-    public void storeData( ) {
-        Cursor cursor = db.listOffers();
+    public void storeData() {
+        Cursor cursor = offersDAO.listOffers();
         if(cursor.getCount() == 0){
             showToast("No offers are added yet!");
-        }else{
+        } else {
             while (cursor.moveToNext()) {
                 offer_id.add(cursor.getString(0));
                 offer_title.add(cursor.getString(1));
-                offer_description.add(cursor.getString(2));
+                offer_number.add(cursor.getString(2));
+                offer_description.add(cursor.getString(3));
             }
         }
+        cursor.close(); // Always close the cursor when done
     }
 
     private void showToast(String message) {

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyApplicationDEMO"
         tools:targetApi="31">
         <activity
+            android:name=".Home_Menu_Admin"
+            android:exported="false" />
+        <activity
             android:name=".Consult_Activity"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
             android:name=".Update_Activity"
             android:exported="false" />
         <activity
-            android:name=".Add_Activity"
+            android:name=".Add_Activity_Seller"
             android:exported="false"
             android:label="Add new activity"
             android:parentActivityName=".Home_Menu_Seller" />
@@ -39,7 +42,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -2,94 +2,57 @@ package com.example.myapplicationdemo;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-public class DB_Helper extends SQLiteOpenHelper {
+public class DB_Helper_Offers {
+    private static final String TAG = "OffersDAO";
+    private SQLiteDatabase db;
+    private Context context;
 
-    private static final String DB_NAME = "OfferShop.db";
-    private static final int DB_VERSION = 1;
-    private static final String TABLE_NAME = "offers";
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_TITLE = "offer_title";
-    private static final String COLUMN_DESCRIPTION = "offer_description";
-    private final Context context;
-
-    public DB_Helper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    public DB_Helper_Offers(SQLiteDatabase db, Context context) {
+        this.db = db;
         this.context = context;
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_DESCRIPTION + " TEXT);";
-        db.execSQL(createTableQuery);
-    }
+    public void addOffer(String title, String description, String number) {
+        ContentValues cv = new ContentValues();
+        cv.put(DB_Helper.COLUMN_OFFER_TITLE, title);
+        cv.put(DB_Helper.COLUMN_OFFER_DESCRIPTION, description);
+        cv.put(DB_Helper.COLUMN_OFFER_NUMBER, number);
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
-    }
-
-    public void addOffer(String title, String description) {
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_TITLE, title);
-            cv.put(COLUMN_DESCRIPTION, description);
-            long result = db.insert(TABLE_NAME, null, cv);
-
-            if (result == -1) {
-                showToast("The insert operation has failed!");
-            } else {
-                showToast("Your offer was added successfully!");
-            }
+        long result = db.insert(DB_Helper.TABLE_OFFERS, null, cv);
+        if (result == -1) {
+            showToast("The insert operation has failed!");
+        } else {
+            showToast("Your offer was added successfully!");
         }
+
     }
 
     public Cursor listOffers() {
-        String query = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(query, null);
+        return db.rawQuery("SELECT * FROM " + DB_Helper.TABLE_OFFERS, null);
     }
 
     public void updateOffer(String row_id, String title, String description) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_DESCRIPTION, description);
+        cv.put(DB_Helper.COLUMN_OFFER_TITLE, title);
+        cv.put(DB_Helper.COLUMN_OFFER_DESCRIPTION, description);
 
-        long result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{row_id});
-
-        if(result == -1){
-            showToast("The update operation has failed!");
-        } else {
-            showToast("Your offer was updated successfully!");
-        }
+        long result = db.update(DB_Helper.TABLE_OFFERS, cv, DB_Helper.COLUMN_OFFER_ID + "=?", new String[]{row_id});
+        showToast(result == -1 ? "The update operation has failed!" : "Your offer was updated successfully!");
     }
 
     public void deleteOffer(String row_id) {
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
-            long result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{row_id});
-            if (result == -1) {
-                showToast("Failed to delete.");
-            } else {
-                showToast("Successfully deleted.");
-            }
-        }
+        long result = db.delete(DB_Helper.TABLE_OFFERS, DB_Helper.COLUMN_OFFER_ID + "=?", new String[]{row_id});
+        showToast(result == -1 ? "The delete operation has failed!" : "Your offer was deleted successfully!");
     }
 
     public void deleteAllOffers() {
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
-            db.execSQL("DELETE FROM " + TABLE_NAME);
-        }
+        db.execSQL("DELETE FROM " + DB_Helper.TABLE_OFFERS);
     }
 
     private void showToast(String message) {

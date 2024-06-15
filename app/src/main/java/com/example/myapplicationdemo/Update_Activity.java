@@ -3,6 +3,8 @@ package com.example.myapplicationdemo;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,10 +35,15 @@ public class Update_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // And only then we call this
-                DB_Helper myDB = new DB_Helper(Update_Activity.this);
+                DB_Helper dbHelper = new DB_Helper(Update_Activity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                DB_Helper_Offers offersDAO = new DB_Helper_Offers(db, Update_Activity.this);
+
                 title = title_input.getText().toString().trim();
                 description = description_input.getText().toString().trim();
-                myDB.updateOffer(id, title, description);
+                offersDAO.updateOffer(id, title, description);
+                startActivity(new Intent(Update_Activity.this, Home_Menu_Seller.class));
+                finish();
             }
         });
 
@@ -72,8 +79,12 @@ public class Update_Activity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                DB_Helper myDB = new DB_Helper(Update_Activity.this);
-                myDB.deleteOffer(id);
+                DB_Helper dbHelper = new DB_Helper(Update_Activity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                DB_Helper_Offers offersDAO = new DB_Helper_Offers(db, Update_Activity.this);
+
+                offersDAO.deleteOffer(id);
+                startActivity(new Intent(Update_Activity.this, Home_Menu_Seller.class));
                 finish();
             }
         });
